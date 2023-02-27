@@ -1,39 +1,32 @@
 {
-  "name": "sablier",
-  "devDependencies": {
-    "@commitlint/cli": "7.5.2",
-    "@commitlint/config-conventional": "7.5.0",
-    "@commitlint/config-lerna-scopes": "7.5.1",
-    "commitizen": "^3.1.2",
-    "coveralls": "^3.0.6",
-    "cz-conventional-changelog": "^2.1.0",
-    "husky": "^1.3.1",
-    "lcov-result-merger": "^3.1.0",
-    "lerna": "^3.13.1",
-    "prettier": "^1.16.4",
-    "shx": "^0.3.2",
-    "wsrun": "^3.6.4"
+  "name": "kernel-streams",
+  "description": "Foundry-based smart contract setup for payment streams, using the work of Paul Razvan Berg extensively",
+  "version": "1.0.0",
+  "author": {
+    "name": "Andy Tudhope",
+    "url": "https://github.com/andytudhope"
   },
-  "license": "LGPL-3.0",
+  "devDependencies": {
+    "@openzeppelin/contracts": "^4.8.1",
+    "prettier": "^2.8.4",
+    "rimraf": "^4.1.2",
+    "solhint": "^3.4.0"
+  },
+  "keywords": [
+    "blockchain",
+    "ethereum",
+    "forge",
+    "foundry",
+    "smart-contracts",
+    "solidity"
+  ],
+  "packageManager": "yarn@3.4.1",
   "private": true,
   "scripts": {
-    "bootstrap": "yarn install && yarn build",
-    "build": "lerna link && yarn wsrun --package $PKG --recursive --stages -c build",
-    "clean": "yarn wsrun --package $PKG --parallel -c clean",
-    "clean:node_modules": "lerna clean --yes; shx rm -rf node_modules",
-    "commit": "git-cz",
-    "coverage": "yarn wsrun --package $PKG --serial -c coverage",
-    "lerna": "lerna",
-    "lint": "yarn wsrun --package $PKG --parallel -c lint && yarn prettier:ci",
-    "prettier": "prettier --config .prettierrc --write '**/*.{js,json,jsx,md,sol,ts,tsx}'",
-    "prettier:ci": "prettier --config .prettierrc --list-different '**/*.{js,json,jsx,md,sol,ts,tsx}'",
-    "test": "yarn wsrun --package $PKG --serial -c test",
-    "watch": "yarn wsrun --package $PKG --parallel -c watch",
-    "wsrun": "wsrun --exclude-missing --fast-exit"
-  },
-  "workspaces": {
-    "packages": [
-      "packages/*"
-    ]
+    "clean": "rimraf cache out",
+    "lint": "yarn lint:sol && yarn prettier:check",
+    "lint:sol": "forge fmt --check && yarn solhint \"{script,src,test}/**/*.sol\"",
+    "prettier:check": "prettier --check \"**/*.{json,md,yml}\"",
+    "prettier:write": "prettier --write \"**/*.{json,md,yml}\""
   }
 }

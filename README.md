@@ -1,112 +1,164 @@
-# Sablier [![CircleCI](https://circleci.com/gh/sablierhq/sablier.svg?style=svg)](https://circleci.com/gh/sablierhq/sablier) [![Coverage Status](https://coveralls.io/repos/github/sablierhq/sablier/badge.svg?branch=develop)](https://coveralls.io/github/sablierhq/sablier?branch=develop) [![Styled with Prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)](https://prettier.io) [![Commitizen Friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/) [![License: LGPL3.0](https://img.shields.io/badge/License-LGPL%20v3-008033.svg)](https://opensource.org/licenses/lgpl-3.0)
+# Kernel Streams [![Styled with Prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)](https://prettier.io) [![Commitizen Friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/) [![License: LGPL3.0](https://img.shields.io/badge/License-LGPL%20v3-008033.svg)](https://opensource.org/licenses/lgpl-3.0)
 
-The source code of the Sablier token streaming protocol. Start with our [FAQ](https://docs.sablier.finance/protocol/faq/basics) to get a
-high-level understanding of how Sablier works, and see our [docs](https://docs.sablier.finance) if you want to integrate it in your project.
+This is a set of payment streaming contracts for open source contributors working on public goods.
 
-| Package                                                   | Description                                                       |
-| --------------------------------------------------------- | ----------------------------------------------------------------- |
-| [`@sablier/dev-utils`](/packages/dev-utils)               | Dev utils to be shared across Sablier projects and packages       |
-| [`@sablier/protocol`](/packages/protocol)                 | The core token streaming protocol                                 |
-| [`@sablier/shared-contracts`](/packages/shared-contracts) | Smart contracts to be shared across Sablier projects and packages |
+It combines [Paul Razvan Berg's](https://github.com/PaulRBerg) work on both Sablier and Foundry templates. We are enormously grateful to him for both of these meaningful exmaples of the kinds of public goods we love working with, and are interested in creating ourselves.
 
-## Usage :hammer_and_pick:
+**Note**: while Paul's foundry template is licensed under MIT, we have followed the GPL-3.0 licensing for Sablier, as this holds the functionality we intend to use.
 
-To compile the smart contracts, bootstrap the monorepo and open the package you'd like to work on. For example, here are the instructions for `@sablier/protocol`:
+## Getting Started
 
-```bash
-$ yarn run bootstrap
-$ cd packages/protocol
-$ truffle compile --all
-$ truffle migrate --reset --network development
+You can clone the repo and set it up manually:
+
+```sh
+git clone --recurse-submodules https://github.com/kernel-community/streams.git
+cd streams
+yarn
 ```
 
-Alternatively, if you simply want to use our apps, head to [pay.sablier.finance](https://pay.sablier.finance) to create streams and
-[app.sablier.finance](https://app.sablier.finance) to withdraw from streams. You'll need an Ethereum wallet and some ERC20 tokens.
+If you prefer to install using foundry directly:
 
-## Contributing :raising_hand_woman:
-
-We highly encourage participation from the community to help shape the development of Sablier. If you are interested in
-contributing or have any questions, ping us on [Discord](https://discord.gg/KXajCXC).
-
-We use [Yarn](https://yarnpkg.com/) as a dependency manager and [Truffle](https://github.com/trufflesuite/truffle)
-as a development environment for compiling, testing, and deploying our contracts. The contracts were written in [Solidity](https://github.com/ethereum/solidity).
-
-### Requirements
-
-- yarn >=1.17.3
-- truffle >= 5.0.35
-- solidity 0.5.17
-
-### Pre Requisites
-
-Make sure you are using Yarn >=1.17.3 To install using homebrew:
-
-```bash
-$ brew install yarn
+```sh
+forge init kernel-streams --template https://github.com/kernel-community/streams
+cd kernel-streams
+yarn # install Solhint, Prettier, and other Node.js deps
 ```
 
-Then install dependencies:
+If this is your first time with Foundry, check out the
+[installation](https://github.com/foundry-rs/foundry#installation) instructions.
 
-```bash
-$ yarn install
+## Work TODO
+
+1. Tests
+2. Deploy scripts
+
+## Features
+
+If you're interested in exploring Foundry in more detail, you should look at the
+[Foundry Book](https://book.getfoundry.sh/). In particular, you may be interested in reading the
+[Writing Tests](https://book.getfoundry.sh/forge/writing-tests.html) tutorial.
+
+### Sensible Defaults
+
+This template comes with a set of sensible default configurations for you to use. These defaults can be found in the
+following files:
+
+```text
+├── .editorconfig
+├── .gitignore
+├── .prettierignore
+├── .prettierrc.yml
+├── .solhint.json
+├── .yarnrc.yml
+├── foundry.toml
+└── remappings.txt
 ```
 
-### Watch
+### VSCode Integration
 
-To re-build all packages on change:
+This template is IDE agnostic, but for the best user experience, you may want to use it in VSCode alongside Juan
+Blanco's [Solidity extension](https://github.com/juanfranblanco/vscode-solidity).
 
-```bash
-$ yarn watch
+For guidance on how to integrate a Foundry project in VSCode, please refer to this
+[guide](https://book.getfoundry.sh/config/vscode).
+
+## Writing Tests
+
+To write a new test contract, you start by importing [PRBTest](https://github.com/PaulRBerg/prb-test) and inherit from
+it in your test contract. PRBTest comes with a pre-instantiated [cheatcodes](https://book.getfoundry.sh/cheatcodes/)
+environment accessible via the `vm` property. If you would like to view the logs in the terminal output you can add the
+`-vvv` flag and use [console.log](https://book.getfoundry.sh/faq?highlight=console.log#how-do-i-use-consolelog).
+
+This template comes with an example test contract [Foo.t.sol](./test/Foo.t.sol).
+
+## Usage
+
+This is a list of the most frequently needed commands.
+
+### Build
+
+Build the contracts:
+
+```sh
+$ forge build
 ```
 
 ### Clean
 
-To clean all packages:
+Delete the build artifacts and cache directories:
 
-```bash
-$ yarn clean
+```sh
+$ forge clean
 ```
 
-To clean a specific package:
+### Compile
 
-```bash
-$ PKG=@sablier/protocol yarn clean
+Compile the contracts:
+
+```sh
+$ forge build
+```
+
+### Coverage
+
+Get a test coverage report:
+
+```sh
+$ forge coverage
+```
+
+### Deploy
+
+Deploy to Anvil:
+
+```sh
+$ forge script script/DeployStreams.s.sol --broadcast --fork-url http://localhost:8545
+```
+
+For this script to work, you need to have a `MNEMONIC` environment variable set to a valid
+[BIP39 mnemonic](https://iancoleman.io/bip39/).
+
+For instructions on how to deploy to a testnet or mainnet, check out the
+[Solidity Scripting](https://book.getfoundry.sh/tutorials/solidity-scripting.html) tutorial.
+
+### Format
+
+Format the contracts:
+
+```sh
+$ forge fmt
+```
+
+### Gas Usage
+
+Get a gas report:
+
+```sh
+$ forge test --gas-report
 ```
 
 ### Lint
 
-To lint all packages:
+Lint the contracts:
 
-```bash
+```sh
 $ yarn lint
 ```
 
-To lint a specific package:
-
-```bash
-$ PKG=@sablier/protocol yarn lint
-```
-
-### Prettier
-
-To run prettier on all packages:
-
-```bash
-$ yarn prettier
-```
-
-Prettier cannot be run on individual packages.
-
 ### Test
 
-To run all tests:
+Run the tests:
 
-```bash
-$ yarn test
+```sh
+$ forge test
 ```
 
-To run tests in a specific package:
+## What's Inside
 
-```bash
-$ PKG=@sablier/protocol yarn test
-```
+- [Forge](https://github.com/foundry-rs/foundry/blob/master/forge): compile, test, fuzz, format, and deploy smart
+  contracts
+- [PRBTest](https://github.com/PaulRBerg/prb-test): modern collection of testing assertions and logging utilities
+- [Forge Std](https://github.com/foundry-rs/forge-std): collection of helpful contracts and cheatcodes for testing
+- [Solhint](https://github.com/protofire/solhint): linter for Solidity code
+- [Prettier Plugin Solidity](https://github.com/prettier-solidity/prettier-plugin-solidity): code formatter for
+  non-Solidity files

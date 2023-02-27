@@ -1,12 +1,15 @@
-# folders
-.nyc_output/
-artifacts/
-build/
-coverage/
-coverageEnv/
-lib/
-node_modules/
-packages/shared-contracts/compound/
+# directories
+.yarn/
+**/broadcast
+**/cache
+**/lib
+**/out
+**/node_modules
 
 # files
+*.env
+*.log
+.pnp.*
 coverage.json
+yarn-debug.log*
+yarn-error.log*
